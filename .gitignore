@@ -6,6 +6,9 @@
 # Package Files #
 *.war
 *.ear
+
+# IDEA
+.idea/workspace.xml
  
 ### Eclipse ###
 *.pydevproject
