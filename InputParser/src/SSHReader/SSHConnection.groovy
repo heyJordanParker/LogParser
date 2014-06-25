@@ -1,5 +1,6 @@
 package SSHReader
 
+import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 
@@ -13,7 +14,8 @@ class SSHConnection {
     private String _password
     private Integer _port = 22
 
-    private JSch _jSch;
+    private JSch _jSch
+    private ChannelExec _commandChannel
 
     public SSHConnection(String host, String user, String password, Integer port = 22) {
         _host = host
@@ -22,7 +24,7 @@ class SSHConnection {
         _port = port
     }
 
-    public Session Connect() throws Exception {
+    public SSHConnection Connect() throws Exception {
         _jSch = new JSch()
 
         Properties config = new Properties()
@@ -33,6 +35,10 @@ class SSHConnection {
         sshSession.setConfig(config)
 
         sshSession.connect()
+
+        _commandChannel = (ChannelExec) sshSession.openChannel("exec")
+
+        return this
     }
 
     String GetHost() {
