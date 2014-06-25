@@ -16,6 +16,8 @@ class SSHTest {
         String sshUser = 'root'
         String sshPassword = 'VMware1!'
 
+        String file = "/var/log/vcac/catalina.out"
+
         def connection = new SSHConnection(sshHost, sshUser, sshPassword)
 
         try {
@@ -25,9 +27,10 @@ class SSHTest {
             println e
         }
 
-
-
+        connection.Connect().Execute("tail -f " + file);
 
     }
+
+
 
 }
