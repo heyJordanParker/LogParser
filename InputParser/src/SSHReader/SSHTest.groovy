@@ -4,6 +4,9 @@ import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 
+import Log.Log
+import Parser.InputParser
+
 import java.nio.channels.Channel
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.LinkedBlockingQueue
@@ -26,20 +29,16 @@ class SSHTest {
             connection.Connect()
             println "Connected"
         } catch (Exception e) {
+            println "Failed to Connect"
             println e
         }
 
-        Queue<String> tail = new LinkedBlockingQueue<String>();
+        Queue<String> inputQueue = new LinkedBlockingQueue<String>();
+        Log log = new Log()
+        InputParser parser = new InputParser(inputQueue, log)
 
-        connection.Connect().Execute("lines=`wc -l ${file} | grep -Eo '^[0-9]*\\s*'`; tail -f -n \$lines ${file}", tail);
-
-        Thread.start {
-            while (true)
-                if(tail.peek() != null)
-                    println tail.take()
-                Thread.sleep(20)
-        }
-
+        connection.Connect().Execute("lines=`wc -l ${file} | grep -Eo '^[0-9]*\\s*'`; tail -f -n \$lines ${file}", inputQueue);
+        parser.start()
 
     }
 
