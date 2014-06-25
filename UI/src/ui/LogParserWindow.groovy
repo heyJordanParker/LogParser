@@ -17,7 +17,7 @@ class LogParserWindow extends JFrame {
     //LogChooser - opens a dialog for configuring a connection towards a local/remote Log file
 
     //FiltersBar - the filters On/Off; (+) button for dialog to add a regex
-    //LogBar - the names of the opened logs is held there
+    //ButtonBar - the names of the opened logs is held there
 
     //LogViewer - contains the log itself; should be able to display different rows
     // indepedently; also marks different places of the text with different colour depending on the filters
@@ -25,7 +25,7 @@ class LogParserWindow extends JFrame {
     /**
      * 3 rows with 1 element each
      *  Filter bar
-     *  Logs Bar
+     *  Log filenames bar
      *  LogViewer
      */
 
@@ -34,21 +34,23 @@ class LogParserWindow extends JFrame {
     public LogParserWindow() {
         setLayout(new BorderLayout())
 
-        //TODO to extract in separate class together with Logs Bar (names of the log files)
-        def filterBar = new JButton("Filter + Log bar")
-//        filterBar.setMaximumSize(new Dimension(100,30))
-        add filterBar, BorderLayout.PAGE_START
-
-//        def logsBar = new JButton("Logs bar")
-//        logsBar.setMaximumSize(new Dimension(100,30))
-//        add logsBar
+        def toolsBar = new ToolsBar()
+        add toolsBar, BorderLayout.PAGE_START
 
         _logViewersPanel = new LogViewersPanel()
         add _logViewersPanel, BorderLayout.CENTER
     }
 
-    public void addLog(Reader r) {
-        _logViewersPanel.addLogView(r)
+    private class ToolsBar extends JPanel {
+        ToolsBar() {
+            setLayout(new GridLayout(3, 1))
+//            add (new JMenuBar())
+            add(new ButtonBar(LogParserWindow.this))
+        }
+    }
+
+    public void addLog(File filePath) {
+        _logViewersPanel.addLogView(filePath)
         repaint()
     }
 }

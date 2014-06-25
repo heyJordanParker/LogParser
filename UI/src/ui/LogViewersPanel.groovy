@@ -19,16 +19,36 @@ class LogViewersPanel extends JPanel {
         visible = true
     }
 
-    public addLogView(Reader reader) {
-        def logPanel = new LogViewerScrollPane(reader)
+    public addLogView(File file) {
+        def logPanel = new LogViewerScrollPane(this, file)
         _logViewers.add logPanel
 
         add logPanel
         repaint()
     }
 
-    public removeLogView(int index) {
-        def removedLog = _logViewers.remove(index)
-        remove(removedLog)
+    public removeLogView(LogViewerScrollPane paneForRemoval) {
+        (0.._logViewers.size()).each {
+            if (_logViewers[it] == paneForRemoval) {
+                _logViewers.remove(it)
+            }
+        }
+
+        remove(paneForRemoval)
+        repaint()
+    }
+
+    public static void main(String[] args) {
+        def list = ["a", "b", "c", "d", "e", "f"]
+        def paneForRemoval = "b"
+
+        ((0..list.size())).each {
+            if (list[it] == paneForRemoval) {
+                list.remove(it)
+                println "removed $it"
+            }
+        }
+
+        println list
     }
 }
