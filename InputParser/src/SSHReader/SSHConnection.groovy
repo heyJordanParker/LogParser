@@ -4,6 +4,8 @@ import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 
+import java.util.concurrent.BlockingQueue
+
 /**
  * Created by Jedy on 6/25/2014.
  */
@@ -53,9 +55,11 @@ class SSHConnection {
         return this
     }
 
-    public void Execute(String command) throws Exception {
+    public void Execute(String command, Queue<String> output) throws Exception {
         if(_executing) return
         _executing = true
+
+        println "Executing $command"
 
         InputStream stream = _commandChannel.getInputStream()
         _commandChannel.setCommand(command)
@@ -65,7 +69,8 @@ class SSHConnection {
             def reader = new BufferedReader(new InputStreamReader(stream))
             String line
             while ((line = reader.readLine()) != null && _executing) {
-                println line
+                output.put(line)
+                Thread.sleep(20)
             }
         }
     }
