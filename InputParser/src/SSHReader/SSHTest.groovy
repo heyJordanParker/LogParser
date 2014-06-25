@@ -6,6 +6,7 @@ import com.jcraft.jsch.Session
 
 import java.nio.channels.Channel
 import java.util.concurrent.LinkedBlockingDeque
+import java.util.concurrent.LinkedBlockingQueue
 
 /**
  * Created by Jedy on 6/25/2014.
@@ -28,7 +29,7 @@ class SSHTest {
             println e
         }
 
-        Queue<String> tail = new LinkedBlockingDeque<String>();
+        Queue<String> tail = new LinkedBlockingQueue<String>();
 
         connection.Connect().Execute("lines=`wc -l ${file} | grep -Eo '^[0-9]*\\s*'`; tail -f -n \$lines ${file}", tail);
 
