@@ -1,6 +1,9 @@
 package SSHReader
 
 import com.jcraft.jsch.JSch
+import com.jcraft.jsch.Session
+
+import java.nio.channels.Channel
 
 /**
  * Created by Jedy on 6/25/2014.
@@ -8,20 +11,22 @@ import com.jcraft.jsch.JSch
 class SSHTest {
 
     public static void main(String[] args) {
-        String sshHost = 'vcac148-084-036.eng.vmware.com'
+        String sshHost = 'vcac152-011-136.eng.vmware.com'
         String sshUser = 'root'
         String sshPassword = 'VMware1!'
-        Integer sshPort = 22;
 
-        JSch jSch = new JSch()
+        def connection = new SSHConnection(sshHost, sshUser, sshPassword)
 
-        Properties config = new Properties()
-        config.put("StrictHostKeyChecking", "no")
+        try {
+            connection.Connect()
+            println "Connected"
+        } catch (Exception e) {
+            println e
+            return
+        }
 
-        def sshSession = jSch.getSession(sshUser, sshHost, sshPort)
-        sshSession.setPassword(sshPassword)
-        sshSession.setConfig(config)
-        println "Connected"
+
+
     }
 
 }
