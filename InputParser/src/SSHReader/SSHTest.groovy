@@ -1,14 +1,8 @@
 package SSHReader
 
-import com.jcraft.jsch.ChannelExec
-import com.jcraft.jsch.JSch
-import com.jcraft.jsch.Session
-
 import Log.Log
 import Parser.InputParser
 
-import java.nio.channels.Channel
-import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.LinkedBlockingQueue
 
 /**
@@ -41,7 +35,6 @@ class SSHTest {
         parser.start()
 
     }
-
 
 
 }

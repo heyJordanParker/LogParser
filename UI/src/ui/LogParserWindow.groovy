@@ -1,5 +1,7 @@
 package ui
 
+import Log.Log
+
 import javax.swing.*
 import java.awt.*
 
@@ -19,7 +21,7 @@ class LogParserWindow extends JFrame {
     //FiltersBar - the filters On/Off; (+) button for dialog to add a regex
     //ButtonBar - the names of the opened logs is held there
 
-    //LogViewer - contains the log itself; should be able to display different rows
+    //LogViewer - contains the logStream itself; should be able to display different rows
     // indepedently; also marks different places of the text with different colour depending on the filters
 
     /**
@@ -49,9 +51,8 @@ class LogParserWindow extends JFrame {
         }
     }
 
-    public void addLog(File filePath) {
-        _logViewersPanel.addLogView(filePath)
-        repaint(500)
+    public void addLog(Log log) {
+        _logViewersPanel.addLogView(log)
         repaint()
     }
 }

@@ -1,5 +1,7 @@
 package ui
 
+import Log.Log
+
 import javax.swing.*
 import java.awt.*
 
@@ -16,8 +18,8 @@ class LogViewersPanel extends JPanel {
         visible = true
     }
 
-    public addLogView(File file) {
-        def logPanel = new LogViewerScrollPane(this, file)
+    public addLogView(Log log) {
+        def logPanel = new LogViewerScrollPane(this, log)
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -30,6 +32,7 @@ class LogViewersPanel extends JPanel {
     }
 
     public removeLogView(LogViewerScrollPane paneForRemoval) {
+        paneForRemoval.stopPrinting()
         remove paneForRemoval
         repaint()
     }

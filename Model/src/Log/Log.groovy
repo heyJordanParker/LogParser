@@ -1,22 +1,20 @@
 package Log
 
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Formatter
 
 /**
  * Created by Jedy on 6/25/2014.
  */
 public class Log {
 
-    private ArrayList<Entity> _entities
+    private List<Entity> _entities
     private String _dateFormat
     private String _fileName
 
     private DateTimeFormatter _dateFormatter
 
     public Log() {
-        _entities = new ArrayList<>()
+        _entities = new ArrayList<Entity>()
         _dateFormat = "yyyy-MM-dd"
         _dateFormatter = DateTimeFormatter.ofPattern(_dateFormat)
     }
@@ -61,5 +59,4 @@ public class Log {
     public void SetFileName(String name) {
         _fileName = name
     }
-
 }

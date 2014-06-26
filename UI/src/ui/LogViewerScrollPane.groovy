@@ -1,7 +1,10 @@
 package ui
 
+import Log.Log
+
 import javax.swing.*
 import javax.swing.plaf.basic.BasicButtonUI
+import javax.swing.text.DefaultCaret
 import java.awt.*
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
@@ -17,19 +20,27 @@ class LogViewerScrollPane extends JTabbedPane {
 
     private JScrollPane scrollPane;
     private Component parent;
+    private Log logStream;
+    private JTextArea textArea
 
-    LogViewerScrollPane(Component parent, File file) {
+    //condition for stopping the printer thread
+    private running = true;
+
+    LogViewerScrollPane(Component parent, Log log) {
+        this.logStream = log
         this.parent = parent
-        JTextArea textArea = new JTextArea();
-        textArea.read(new FileReader(file), "")
+        textArea = new JTextArea();
         textArea.setEditable false
+
+        DefaultCaret caret = (DefaultCaret) textArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         scrollPane = new JScrollPane(textArea)
         scrollPane.setHorizontalScrollBarPolicy JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS
         scrollPane.setVerticalScrollBarPolicy JScrollPane.VERTICAL_SCROLLBAR_ALWAYS
 
         TabButton closeButton = new TabButton();
-        JLabel title = new JLabel(file.getName())
+        JLabel title = new JLabel(log.GetFileName())
 
         addTab "", scrollPane
 
@@ -38,6 +49,26 @@ class LogViewerScrollPane extends JTabbedPane {
         titlePanel.add closeButton
         setTabComponentAt(indexOfComponent(scrollPane), titlePanel)
         repaint()
+        startPrintingData()
+    }
+
+    private void startPrintingData() {
+        Thread.start {
+            int indexTraversed = 0
+            while (running) {
+                def entities = logStream.GetEntities()
+                if (indexTraversed <= entities.size() - 1) {
+                    textArea.append(entities.get(indexTraversed++).GetContent() + "\n")
+                    repaint()
+                } else {
+                    Thread.sleep(100)
+                }
+            }
+        }
+    }
+
+    public void stopPrinting() {
+        running = false;
     }
 
     private class TabButton extends JButton {
