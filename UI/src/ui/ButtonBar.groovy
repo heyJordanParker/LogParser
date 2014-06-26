@@ -26,6 +26,7 @@ class ButtonBar extends JToolBar {
     ButtonBar(LogParserWindow parent) {
         this.mainWindow = parent
 
+        //TODO make it work for local files as well
 //        def newLogBtn = new JButton("Add local log file")
 //        newLogBtn.addActionListener(new ActionListener() {
 //            @Override
@@ -67,8 +68,8 @@ class ButtonBar extends JToolBar {
         })
         add remoteLogBtn
 
-        def filterBtn = new JButton("Add filter")
-        add filterBtn
+//        def filterBtn = new JButton("Add filter")
+//        add filterBtn
     }
 
     public void pullThePlug() {
@@ -130,6 +131,7 @@ class ButtonBar extends JToolBar {
                     InputParser parser = new InputParser(inputQueue, log)
 
                     String path = path.getText().trim()
+                    log.SetFileName(host.getText().trim() + "->" + path)
                     connection.Connect().Execute("lines=`wc -l ${path} | grep -Eo '^[0-9]*\\s*'`; tail -f -n \$lines ${path}", inputQueue);
                     parser.start()
 
