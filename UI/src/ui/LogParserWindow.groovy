@@ -43,7 +43,7 @@ class LogParserWindow extends JFrame {
 
     private class ToolsBar extends JPanel {
         ToolsBar() {
-            setLayout(new GridLayout(3, 1))
+            setLayout(new GridLayout(1, 1))
 //            add (new JMenuBar())
             add(new ButtonBar(LogParserWindow.this))
         }
@@ -51,6 +51,7 @@ class LogParserWindow extends JFrame {
 
     public void addLog(File filePath) {
         _logViewersPanel.addLogView(filePath)
+        repaint(500)
         repaint()
     }
 }

@@ -19,6 +19,7 @@ class LogViewerScrollPane extends JTabbedPane {
     private Component parent;
 
     LogViewerScrollPane(Component parent, File file) {
+        this.parent = parent
         JTextArea textArea = new JTextArea();
         textArea.read(new FileReader(file), "")
         textArea.setEditable false
@@ -36,7 +37,6 @@ class LogViewerScrollPane extends JTabbedPane {
         titlePanel.add title
         titlePanel.add closeButton
         setTabComponentAt(indexOfComponent(scrollPane), titlePanel)
-
         repaint()
     }
 
