@@ -1,7 +1,7 @@
 package SSHReader
 
 import Log.Log
-import Parser.InputParser
+import InputParser
 
 import java.util.concurrent.LinkedBlockingQueue
 

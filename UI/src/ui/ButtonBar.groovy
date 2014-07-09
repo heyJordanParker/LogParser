@@ -1,7 +1,7 @@
 package ui
 
 import Log.Log
-import Parser.InputParser
+import InputParser
 import SSHReader.SSHConnection
 
 import javax.swing.*
